@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://coqplqlfwmv0"]
+
+[ext_resource type="Script" uid="uid://b4mrdkenvquxk" path="res://motion_blur/camera_3d.gd" id="1_dqw58"]
+[ext_resource type="PackedScene" uid="uid://dayt4bca10yn7" path="res://motion_blur/motion_blur.tscn" id="2_vekt3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ilnao"]
+albedo_color = Color(0.0846899, 0.0846899, 0.0846899, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_dqw58"]
+material = SubResource("StandardMaterial3D_ilnao")
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ilnao"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
+visible = false
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0649266, 0.311746, 2.67423)
+script = ExtResource("1_dqw58")
+senstivvity = 0.5
+
+[node name="motion_blur" parent="Camera3D" instance=ExtResource("2_vekt3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_dqw58")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+mesh = SubResource("BoxMesh_ilnao")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -6)
+mesh = SubResource("BoxMesh_ilnao")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
+mesh = SubResource("BoxMesh_ilnao")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -4)
+mesh = SubResource("BoxMesh_ilnao")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.52852, 1.27365, -6)
+mesh = SubResource("BoxMesh_ilnao")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.340606, 1.27365, -6)
+mesh = SubResource("BoxMesh_ilnao")

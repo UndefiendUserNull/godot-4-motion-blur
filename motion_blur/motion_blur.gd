@@ -1,37 +1,42 @@
-tool
-extends MeshInstance
+extends MeshInstance3D
 
-var cam_pos_prev = Vector3()
-var cam_rot_prev = Quat()
+var cam_pos_prev := Vector3()
+var cam_rot_prev := Quaternion()
 
-func _process(_delta):
-	
-	#OS.delay_msec(30)
-	
-	var mat = get_surface_material(0)
+func _ready():
 	var cam = get_parent()
-	assert(cam is Camera)
-	
-	# Linear velocity is just difference in positions between two frames.
-	var velocity = cam.global_transform.origin - cam_pos_prev
-	
-	# Angular velocity is a little more complicated, as you can see.
-	# See https://math.stackexchange.com/questions/160908/how-to-get-angular-velocity-from-difference-orientation-quaternion-and-time
-	var cam_rot = Quat(cam.global_transform.basis)
-	var cam_rot_diff = cam_rot - cam_rot_prev
-	if cam_rot.dot(cam_rot_prev) < 0.0: # Wraparound Fix
-		cam_rot_diff = -cam_rot_diff;
+	if cam is Camera3D:
+		cam_pos_prev = cam.global_transform.origin
+		cam_rot_prev = Quaternion(cam.global_transform.basis)
+
+func _process(delta):
+	if delta <= 0:
+		return
 		
-	var cam_rot_conj = conjugate(cam_rot)
-	var ang_vel = (cam_rot_diff * 2.0) * cam_rot_conj; 
-	ang_vel = Vector3(ang_vel.x, ang_vel.y, ang_vel.z) # Convert Quat to Vector3
-	
-	mat.set_shader_param("linear_velocity", velocity)
-	mat.set_shader_param("angular_velocity", ang_vel)
+	var delta_clamped = clamp(delta, 1.0/120.0, 1.0/30.0)
+	var mat = mesh.surface_get_material(0) as ShaderMaterial
+	if !mat:
+		return
 		
-	cam_pos_prev = cam.global_transform.origin
-	cam_rot_prev = Quat(cam.global_transform.basis)
+	var cam = get_parent()
+	if !(cam is Camera3D):
+		return
 	
-# Calculate the conjugate of a quaternion.
-func conjugate(quat):
-	return Quat(-quat.x, -quat.y, -quat.z, quat.w)
+	# Linear velocity (delta-based)
+	var new_pos = cam.global_transform.origin
+	var velocity = (new_pos - cam_pos_prev) / delta
+	
+	# Angular velocity
+	var new_rot = Quaternion(cam.global_transform.basis)
+	var rot_diff = new_rot * cam_rot_prev.inverse()
+	
+	# Convert difference quaternion to axis-angle
+	var angle = 2 * acos(rot_diff.w)
+	var axis = Vector3(rot_diff.x, rot_diff.y, rot_diff.z).normalized()
+	var ang_vel = axis * (angle / delta)
+	
+	mat.set_shader_parameter("linear_velocity", velocity / delta_clamped)
+	mat.set_shader_parameter("angular_velocity", ang_vel / delta_clamped)
+		
+	cam_pos_prev = new_pos
+	cam_rot_prev = new_rot

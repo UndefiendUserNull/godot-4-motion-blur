@@ -1,28 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://dayt4bca10yn7"]
 
-[ext_resource path="res://motion_blur/moblur_shader.tres" type="Material" id=1]
-[ext_resource path="res://motion_blur/motion_blur.gd" type="Script" id=2]
+[ext_resource type="Material" uid="uid://b8fc7jcgi6ov1" path="res://motion_blur/moblur_shader.tres" id="1"]
+[ext_resource type="Script" uid="uid://w7kbheypo6ej" path="res://motion_blur/motion_blur.gd" id="2"]
 
-[sub_resource type="QuadMesh" id=1]
+[sub_resource type="QuadMesh" id="1"]
+material = ExtResource("1")
+size = Vector2(40, 20)
 
-size = Vector2( 40, 20 )
-
-[node name="motion_blur" type="MeshInstance" index="0"]
-
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-layers = 1
-material_override = null
+[node name="motion_blur" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 cast_shadow = 0
-extra_cull_margin = 0.0
-use_in_baked_light = false
-lod_min_distance = 0.0
-lod_min_hysteresis = 0.0
-lod_max_distance = 0.0
-lod_max_hysteresis = 0.0
-mesh = SubResource( 1 )
-skeleton = NodePath("..")
-material/0 = ExtResource( 1 )
-script = ExtResource( 2 )
-_sections_unfolded = [ "Geometry", "LOD", "Transform", "Visibility", "material" ]
-
-
+mesh = SubResource("1")
+script = ExtResource("2")

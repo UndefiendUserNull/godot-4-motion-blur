@@ -1,3 +1,5 @@
+# This is a fork, I fixed some problems when trying to use the addon in Godot 4, it should work now, there's some issues tho and it doesn't look the best
+
 # Godot Motion Blur
 
 This is a camera motion blur shader for Godot. It uses the linear and angular velocity of the camera to calculate a velocity vector per pixel, and then blurs that pixel accordingly. The velocity is automatically calculated from the way the camera moves and rotates, so it works for pretty any kind of camera animation you can think of. It can produce linear blur, angular blur, zooming blur, and any combination of them, depending on the camera's movement.

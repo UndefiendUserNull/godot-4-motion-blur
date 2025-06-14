@@ -1,12 +1,13 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b8fc7jcgi6ov1"]
 
-[ext_resource path="res://motion_blur/moblur_shader.shader" type="Shader" id=1]
+[ext_resource type="Shader" uid="uid://bqdeh01q5s0o5" path="res://motion_blur/moblur_shader.gdshader" id="1_sl1dd"]
 
 [resource]
-render_priority = -1
-shader = ExtResource( 1 )
-shader_param/linear_velocity = Vector3( 0, 0, 0 )
-shader_param/angular_velocity = Vector3( 0, 0, 0 )
-shader_param/iteration_count = 15
-shader_param/intensity = 0.5
-shader_param/startRadius = 0.1
+render_priority = 0
+shader = ExtResource("1_sl1dd")
+shader_parameter/linear_velocity = Vector3(0, 0, 0)
+shader_parameter/angular_velocity = Vector3(0, 0, 0)
+shader_parameter/samples = 12
+shader_parameter/shutter_speed = 0.5
+shader_parameter/max_blur_pixels = 16.0
+shader_parameter/depth_threshold = 0.1
